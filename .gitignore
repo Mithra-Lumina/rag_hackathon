@@ -3,5 +3,4 @@ ingest_server_os_docl_fast.py
 __pycache__/utils.cpython-312.pyc
 data/climate_edu/389801eng_clean.md
 data/climate_edu/389801eng.md
-chroma*
 data/climate_edu/output.md

@@ -1,0 +1,15 @@
+body {
+    background-color: #e6f9e6 !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* If you want only the Gradio app container to be green: */
+  .gradio-container {
+    background-color: #e6f9e6 !important;
+  }
+#header-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

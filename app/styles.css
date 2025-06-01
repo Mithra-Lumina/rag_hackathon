@@ -36,3 +36,13 @@ body {
 }
 /* hide progress timing */
 .progress-text { display: none !important; }
+
+#doc-res {
+  min-height: 25vh !important;
+}
+#plot-area {
+  min-height: 63vh !important;
+}
+#chatbot-main {
+  min-height: 76vh !important;
+}

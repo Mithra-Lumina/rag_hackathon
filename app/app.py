@@ -121,13 +121,18 @@ def chatbot_interface(user_message, chat_history):
     for chunk in streamer:
         chat_history[-1]["content"] += chunk.content
         yield chat_history, gr.Textbox(value="", interactive=True)
-
+def gallery_images():
+    images = [
+                "app/climate-change-concept-illustration_114360-27216.avif",
+                "app/TY6SwtikwK9QzrrmuZcfoj.jpg",
+            ]
+    return images
 
 with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9982/small_and_pretty")) as demo:
     gr.Markdown(elem_id="header-main", value="# 🌍 Learn more about Climate Change 🌍")
-    with gr.Row():
+    with gr.Row(elem_id="chatbot-area"):
         with gr.Group():
-            chatbot = gr.Chatbot(show_label=False, elem_id="chatbot-main", min_height="650px", type="messages")
+            chatbot = gr.Chatbot(show_label=False, elem_id="chatbot-main", type="messages")
             user_input = gr.Textbox(
                 placeholder="Type your question here...",
                 lines=1,
@@ -137,10 +142,14 @@ with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9
             send_btn = gr.Button("Send")
         with gr.Group():
             with gr.Row():
-                gr.TextArea(show_copy_button=True,show_label=False, value= "")
-            with gr.Row():
-                gr.TextArea(show_copy_button=True,show_label=False, value= "")
-                
+                with gr.Group(elem_id="doc-res"):
+                    gr.Markdown(elem_id="header-main", value="# 📈 Visuallization and Resources 📄")
+                    gr.TextArea(autoscroll= False, show_copy_button=True,show_label=False, value= "This is a climate education system that uses RAG pipeline to help you understand more about climate change, its impacts, and how to mitigate it. Using this AI-dirven system you can ask how to tackle different environmental problems and use it for self-education instead of surfing the internet for sparse knowledge in this area. It has access to a broad range of materials based on truth with statistical information to guide you.")
+            with gr.Row(elem_id="plot-area"):
+                gallery = gr.Gallery(
+                    show_label=False, elem_id="gallery",
+                    object_fit="contain", height="auto", selected_index=1, value=gallery_images
+                )
 
                 demo.load(None, None, None, js="() => { document.body.classList.remove('dark'); }")
     send_btn.click(

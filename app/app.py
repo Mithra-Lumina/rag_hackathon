@@ -66,7 +66,7 @@ def format_chat_history(chat_history, limit=10):
 def build_prompt(context, user_query, history):
     SYSTEM_PROMPT = f"""
         You are an climate educational system, that only helps user's with topics related to climate change and related environmental concepts.
-        Create a comprehensive but preliminary roadmap from the following context to suggest user's whom do not know about climate change and ask about it.
+        Create a comprehensive but preliminary road map from the following context to suggest user's whom do not know about climate change and ask about it.
         Context is bellow: 
         {context}
         Provide accurate, interactive, and easily understandable answers about climate change, its impacts, and practical actions individuals can take to mitigate it. Tailor responses for educational clarity, engaging learners through explanations and examples suitable for diverse age groups and backgrounds.
@@ -121,8 +121,6 @@ def chatbot_interface(user_message, chat_history):
     for chunk in streamer:
         chat_history[-1]["content"] += chunk.content
         yield chat_history, gr.Textbox(value="", interactive=True)
-
-    # yield chat_history, gr.Textbox(value="", interactive=True)
 
 
 with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9982/small_and_pretty")) as demo:

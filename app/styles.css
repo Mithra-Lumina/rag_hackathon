@@ -4,12 +4,35 @@ body {
     padding: 0;
   }
 
-  /* If you want only the Gradio app container to be green: */
-  .gradio-container {
+.gradio-container {
     background-color: #e6f9e6 !important;
   }
 #header-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+#chatbot-main .message.user {
+  background-color: #84a866;
+}
+
+#chatbot-main .message.bot {
+  background-color: #F1F1F1;
+}
+
+.input textarea, .input input {
+  background-color: #e6f9e6;
+  color: #5d5d5d;
+}
+*:focus {
+    background-color: #F1F1F1 !important;
+    outline: none;
+}
+
+/* hide clear button */
+.icon-button-wrapper.top-panel {
+  display: none !important;
+}
+/* hide progress timing */
+.progress-text { display: none !important; }

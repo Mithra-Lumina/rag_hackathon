@@ -2,6 +2,14 @@
 ## Intro to Climate education platform
 This is an interactive educational platform that uses RAG to provide information on climate change, its impacts, and actions individuals can take to mitigate it.
 
+## Required access tokens
+To  run this project you need the following credentials from IBM and should create a .env file with them in app directory (also it would be a good practice to create another env file in root directory or simply update the paths in jupyter notebooks to read env in app folder)
+Example of .env file:
+```
+API_KEY="xxx"
+URL="xxx"
+PROJECT_ID = "xxx"
+``` 
 ## Run using Docker
 
 Running the following command in project's root directory to build the docker image:

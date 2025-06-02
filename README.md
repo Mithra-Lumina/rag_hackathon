@@ -3,14 +3,14 @@
 This is an interactive educational platform that uses RAG to provide information on climate change, its impacts, and actions individuals can take to mitigate it.
 
 ## Required access tokens
-To  run this project you need the following credentials from IBM and should create a .env file with them in app directory (also it would be a good practice to create another env file in root directory or simply update the paths in jupyter notebooks to read env in app folder)
+To  run this project you need the following credentials from IBM and should create a .env file with them in app directory (also it would be a good practice to create another env file in root directory or simply update the paths in jupyter notebooks to read env in the app folder)
 Example of .env file:
 ```
 API_KEY="xxx"
 URL="xxx"
 PROJECT_ID = "xxx"
 ``` 
-Or rename the .env.exmaple file to .env and update it with credentials.
+Or rename the app/.env.exmaple file to app/.env and update it with credentials.
 
 ## IBM Technologies used in the project
 

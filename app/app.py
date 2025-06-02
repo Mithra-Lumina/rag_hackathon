@@ -10,6 +10,7 @@ from langchain_core.messages import (
 )
 import fitz
 import utils
+load_dotenv()
 
 class StreamingGradioCallbackHandler(BaseCallbackHandler):
     def __init__(self, chatbot_messages_list):
@@ -24,7 +25,6 @@ class StreamingGradioCallbackHandler(BaseCallbackHandler):
             pass
 
 def load_environment():
-    load_dotenv()
     return {
         "API_KEY": os.getenv("API_KEY"),
         "IBM_URL": os.getenv("URL"),
@@ -45,11 +45,12 @@ def initialize_vector_store(embedder):
         collection_name="climate_edu",
         persist_directory="app/data/chroma_db",
         embedding_function=embedder
-    )
+        )
+
 embedder = get_embedder(config["API_KEY"], config["IBM_URL"], config["PROJECT_ID"])
 vector_store = initialize_vector_store(embedder)
 def retrieve_relevant_docs(query, k=5):
-    docs = vector_store.similarity_search_with_relevance_scores(query, k=k, score_threshold=0.50)
+    docs = vector_store.similarity_search_with_relevance_scores(query, k=k, score_threshold=0.65)
     page_content = [doc[0].page_content for doc in docs]
     page_number = [doc[0].metadata['page'] for doc in docs]
     file_name = [doc[0].metadata['file_name'] for doc in docs]
@@ -112,8 +113,9 @@ def user_fn(user_message, chat_history):
 llm = get_llm(config["API_KEY"], config["IBM_URL"], config["PROJECT_ID"])
 local_custom_agent = utils.LangGraphApp()
 local_custom_agent.set_up(llm)
+
 def chatbot_interface(user_message, chat_history):
-    response = local_custom_agent.query(user_message)
+    local_custom_agent.query(user_message)
     chat_history = chat_history or []
     chat_history.append({"role": "assistant", "content": ""})
 
@@ -121,38 +123,24 @@ def chatbot_interface(user_message, chat_history):
     context = "\n".join([f"Document {i + 1}:\n{doc}" for i, doc in enumerate(content)])
     history = format_chat_history(chat_history)
     prompt = build_prompt(context, user_message, history)
-
     streamer = llm.stream(prompt)
     for chunk in streamer:
         chat_history[-1]["content"] += chunk.content
         yield chat_history, gr.Textbox(value="", interactive=True)
-
 def export_page_fitz(file_name, page_number):
     source_path = os.path.join("app/data/climate_edu", file_name + ".pdf")
     doc = fitz.open(source_path)
-
-    if page_number < 1 or page_number > len(doc):
-        print("Invalid page number")
-        return
 
     page = doc.load_page(page_number)
     pix = page.get_pixmap(dpi=200)
     os.makedirs("app/output", exist_ok=True)
     output_path = f"app/output/test{page_number}-{file_name}.png"
-    pix.save(output_path)
-    print(f"Saved: {output_path}")
 
 def gallery_images(file_names, page_numbers):
     # Clean old images
     if len(file_names) >= 1:
-        if os.path.exists("app/output"):
-            for f in os.listdir("app/output"):
-                if f.endswith(".png"):
-                    os.remove(os.path.join("app/output", f))
-
-    for file_name, page_number in zip(file_names, page_numbers):
-        export_page_fitz(file_name, page_number)
-        print(file_name, page_number)
+        for file_name, page_number in zip(file_names, page_numbers):
+            export_page_fitz(file_name, page_number)
 
     
 def show_gallery():
@@ -161,7 +149,6 @@ def show_gallery():
         for img in os.listdir("app/output")
         if img.endswith(".png")
     ]
-
     return images
 
 def show_plot():
@@ -170,8 +157,17 @@ def show_plot():
         for img in os.listdir("app/plot_output")
         if img.endswith(".png")
     ]
-
     return images
+
+def cleanup_output():
+    if os.path.exists("app/output"):
+        for f in os.listdir("app/output"):
+            if f.endswith(".png"):
+                os.remove(os.path.join("app/output", f))
+    if os.path.exists("app/plot_output"):
+        for f in os.listdir("app/plot_output"):
+            if f.endswith(".png"):
+                os.remove(os.path.join("app/plot_output", f))
 
 with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9982/small_and_pretty")) as demo:
     gr.Markdown(elem_id="header-main", value="# 🌍 Learn more about Climate Change 🌍")
@@ -208,38 +204,40 @@ with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9
                 )
                 demo.load(None, None, None, js="() => { document.body.classList.remove('dark'); }")
     send_btn.click(
+        fn=cleanup_output,
+        ).then(
         fn=user_fn,
         inputs=[user_input, chatbot],
         outputs=[chatbot, user_input]
     ).then(
         fn=retrieve_relevant_docs,
         inputs=[user_input],
-        outputs=[None, None, None]
     ).then(
         fn=show_gallery,
         outputs=[gallery]
     ).then(
         fn= chatbot_interface,
-        inputs=[gr.State(value=""), chatbot],
+        inputs=[user_input, chatbot],
         outputs=[chatbot, user_input]
         ).then(
         fn=show_plot,
         outputs=[gallerya]
     )
     user_input.submit(
+        fn=cleanup_output,
+        ).then(
         fn=user_fn,
         inputs=[user_input, chatbot],
         outputs=[chatbot, user_input]
     ).then(
         fn=retrieve_relevant_docs,
         inputs=[user_input],
-        outputs=[None, None, None]
     ).then(
         fn=show_gallery,
         outputs=[gallery]
     ).then(
         fn= chatbot_interface,
-        inputs=[gr.State(value=""), chatbot],
+        inputs=[user_input, chatbot],
         outputs=[chatbot, user_input]
         ).then(
         fn=show_plot,

@@ -7,10 +7,13 @@ from typing import Literal
 from langchain_core.tools import tool
 from matplotlib import figure
 
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
 from langgraph.graph import END, MessageGraph
 from langgraph.prebuilt import ToolNode
 from pydantic import BaseModel, Field
+
+sys_message = """you have access to tools, ONLY RETURN A TOOL IF A USER ASKES YOU ABOUT 
+TEMPERATURE AND CO2 LEVELS BETWEEN TWO DATES, Otherwise answer the question normally"""
 
 def markdown_cleanup(md_text):
     md_text = re.sub('\n+', '\n', md_text)
@@ -131,7 +134,7 @@ def router(
         function_name = tool_calls[0].get("name")
         if function_name == "create_temperature_graph":
             return "create_temperature_graph"
-        else:
+        elif function_name == "create_co2_graph":
             return "create_co2_graph"
     else:
         # End the conversation flow.
@@ -159,5 +162,5 @@ class LangGraphApp:
     # The query method will be used to send inputs to the agent
     def query(self, input: str):
         """Query the application."""
-        chat_history = (self.app.invoke(HumanMessage(input)))
+        chat_history = (self.app.invoke([SystemMessage(sys_message),HumanMessage(input)]))
         return chat_history

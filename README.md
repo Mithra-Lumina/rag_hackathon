@@ -2,6 +2,18 @@
 ## Intro to Climate education platform
 This is an interactive educational platform that uses RAG to provide information on climate change, its impacts, and actions individuals can take to mitigate it.
 
+## Run using Docker
+
+Running the following command in project's root directory to build the docker image:
+```
+docker build -t rag_hackathon .      
+```
+Next step is to run the following command to launch it:
+```
+docker run -p 7860:7860 rag_hackathon
+```
+Open the localhost:7860 to see the result.
+
 ## How to run manually
 
 We ran our experiments using Python 3.12 and simply run:

@@ -59,7 +59,6 @@ def plot_temps(start_time, end_time, out_path=None):
     filtered_df = df[(df['time'] >= start_time) & (df['time'] <= end_time)] 
     fig, ax = plt.subplots(figsize=(12, 6))
 
-    #  Create the line plot
     sns.lineplot(x='time', y='station', data=filtered_df, ax=ax)
 
     ax.set_xlabel('Year')
@@ -73,7 +72,6 @@ def plot_temps(start_time, end_time, out_path=None):
 
     plt.tight_layout()
 
-    # If the caller passed an output path, save the figure:
     if out_path is not None:
         fig.savefig(out_path, dpi=300) 
     return fig, ax
@@ -125,23 +123,18 @@ def router(
     state: list[BaseMessage],
 ) -> Literal["create_temperature_graph","create_co2_graph", "__end__"]:
     """Creates tempreture graph."""
-    # Get the tool_calls from the last message in the conversation history.
     tool_calls = state[-1].tool_calls
 
-    # If there are any tool_calls
     if tool_calls:
-        # Check the function name in the first tool call
         function_name = tool_calls[0].get("name")
         if function_name == "create_temperature_graph":
             return "create_temperature_graph"
         elif function_name == "create_co2_graph":
             return "create_co2_graph"
     else:
-        # End the conversation flow.
         return "__end__"
     
 class LangGraphApp:
-    # The set_up method is used to define application initialization logic
     def set_up(self, ibm_chat) -> None:
         model = ibm_chat
         builder = MessageGraph()
@@ -159,7 +152,6 @@ class LangGraphApp:
         builder.add_conditional_edges("tools", router)
         self.app = builder.compile()
 
-    # The query method will be used to send inputs to the agent
     def query(self, input: str):
         """Query the application."""
         chat_history = (self.app.invoke([SystemMessage(sys_message),HumanMessage(input)]))

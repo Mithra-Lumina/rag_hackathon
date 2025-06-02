@@ -41,7 +41,11 @@ body {
   min-height: 25vh !important;
 }
 #plot-area {
-  min-height: 63vh !important;
+  min-height: 25vh !important;
+}
+#gallery ,#gallerya {
+  min-height: 30vh !important;
+  max-height: 40vh !important;
 }
 #chatbot-main {
   min-height: 76vh !important;

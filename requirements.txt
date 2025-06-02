@@ -7,3 +7,14 @@ ibm-watsonx-ai
 langchain-ibm
 langchain-huggingface
 langchain_experimental
+langchain-core
+gradio
+dotenv
+PyMuPDF
+seaborn
+matplotlib
+numpy
+pydantic
+pandas
+langgraph
+httpx

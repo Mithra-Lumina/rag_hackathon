@@ -14,19 +14,19 @@ Or rename the app/.env.exmaple file to app/.env and update it with credentials.
 
 ## IBM Technologies used in the project
 
-**Watsonx Studio**: Providing the foundation models.
-**Langchain IBM**: Langchain library to integrate with the IBM cloud and watsonx, provides easy access to foundation models.
-**Docling**: Excelent library for reading documents and turning them into structured data for use in a RAG pipeline.
-**Granite Embedding Model**: Used as embedder 
+* **Watsonx Studio**: Providing the foundation models.
+* **Langchain IBM**: Langchain library to integrate with the IBM cloud and watsonx, provides easy access to foundation models.
+* **Docling**: Excelent library for reading documents and turning them into structured data for use in a RAG pipeline.
+* **Granite Embedding Model**: Used as embedder 
 
 ## Other technologies
-**Langcahin**: Various functionalitoes
-**Langgraph**: Use for creation of agentic features
-**Gradio**: Convinient chatbot interface
-**ChromaDB**: Used as vectorestore
-**Fitz**: Read and write binary content and files
-**Pandas**: Data manipulation and analysis
-**Docker**: Containerization for easy deployment
+* **Langcahin**: Various functionalitoes
+* **Langgraph**: Use for creation of agentic features
+* **Gradio**: Convinient chatbot interface
+* **ChromaDB**: Used as vectorestore
+* **Fitz**: Read and write binary content and files
+* **Pandas**: Data manipulation and analysis
+* **Docker**: Containerization for easy deployment
 
 ## Specifics of Models used
 **Embedding Model**: granite-embedding-278m-multilingual

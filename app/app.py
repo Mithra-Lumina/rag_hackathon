@@ -135,9 +135,10 @@ def export_page_fitz(file_name, page_number):
     pix = page.get_pixmap(dpi=200)
     os.makedirs("app/output", exist_ok=True)
     output_path = f"app/output/test{page_number}-{file_name}.png"
+    pix.save(output_path)
+
 
 def gallery_images(file_names, page_numbers):
-    # Clean old images
     if len(file_names) >= 1:
         for file_name, page_number in zip(file_names, page_numbers):
             export_page_fitz(file_name, page_number)
@@ -244,4 +245,4 @@ with gr.Blocks(css_paths="./app/styles.css", theme=gr.Theme.from_hub("JohnSmith9
         outputs=[gallerya]
     )
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(server_name="0.0.0.0", server_port=7860)

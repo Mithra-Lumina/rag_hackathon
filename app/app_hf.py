@@ -155,7 +155,6 @@ def export_page_fitz(file_name, page_number):
     pix.save(output_path)
 
 def gallery_images(file_names, page_numbers):
-    # Clean old images
     if len(file_names) >= 1:
         for file_name, page_number in zip(file_names, page_numbers):
             export_page_fitz(file_name, page_number)

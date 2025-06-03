@@ -29,8 +29,8 @@ Or rename the app/.env.exmaple file to app/.env and update it with credentials.
 * **Docker**: Containerization for easy deployment
 
 ## Specifics of Models used
-**Embedding Model**: granite-embedding-278m-multilingual
-**LLM Model**: Llama-3.3-70b-instruct
+* **Embedding Model**: granite-embedding-278m-multilingual
+* **Foundation Model**: Llama-3.3-70b-instruct
 
 ## How to run the project
 ### Docker (app.py - using WatsonX backend)

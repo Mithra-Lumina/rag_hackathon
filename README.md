@@ -1,3 +1,4 @@
+![IBMHackathon-Projectdemo-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/4a0cdca9-029d-4f3b-a1b8-8c1b81fc3249)
 # Agentic Rag solution using WatsonX by IBM
 ## Intro to Climate education platform
 This is an interactive educational platform that uses RAG to provide information on climate change, its impacts, and actions individuals can take to mitigate it.
